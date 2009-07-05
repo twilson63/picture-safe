@@ -5,10 +5,10 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "picture-safe"
-    gem.summary = %Q{TODO}
-    gem.email = "tom@jackhq.com"
+    gem.summary = %Q{Picture Safe is a gem that backs up all the jpeg's in a given directory and its sub directory.}
+    gem.email = "picture-safe@jackhq.com"
     gem.homepage = "http://github.com/twilson63/picture-safe"
-    gem.authors = ["Tom Wilson"]
+    gem.authors = ["Jack Russell Software Company, LLC"]
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 

@@ -1,6 +1,17 @@
 = picture-safe
 
-Description goes here.
+== Gem Requirements
+
+1. AWS/S3
+
+== ENV Requirements
+
+PHOTO_ROOT = Directory you are storing your photos
+PHOTO_BUCKET = Name of S3 Bucket
+
+keys
+AMAZON_ACCESS_KEY_ID
+AMAZON_SECRET_ACCESS_KEY
 
 == Copyright
 
