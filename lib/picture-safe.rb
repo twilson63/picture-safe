@@ -6,11 +6,12 @@ module PictureSafe
     
     def backup(home_directory)
       puts "Starting Backup!"
-      puts [home_directory, ENV['PHOTO_ROOT'], '**/*.jpg'].join('/')
+      
       pictures = Dir.glob([home_directory, ENV['PHOTO_ROOT'], '**/*.jpg'].join('/'))
       
       changes = pictures - pictures_in_safe
       
+            
       changes.each_with_index do |photo, index|
         store photo
         puts "Stored #{photo}"
@@ -21,7 +22,11 @@ module PictureSafe
     
     def pictures_in_safe
       get_conn
-      get_bucket.objects
+      pictures = []
+      get_bucket.objects.each do |s3object|
+        pictures << "/" + s3object.key
+      end
+      pictures
     end
     
     def store(filename)
