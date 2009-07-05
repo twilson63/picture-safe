@@ -8,11 +8,20 @@ module PictureSafe
       unless ENV['PHOTO_ROOT']
         return "Please define your env varible PHOTO_ROOT"
       end 
+
+      unless ENV['PHOTO_BUCKET']
+        return "Please define your env varible PHOTO_BUCKET"
+      end 
       
       puts "Starting Backup!"
       
-      pictures = Dir.glob([home_directory, ENV['PHOTO_ROOT'], '**/*.jpg'].join('/'))
-                  
+      pictures = []
+      if RUBY_PLATFORM =~ /mswin32/
+        pictures = Dir.glob([home_directory, ENV['PHOTO_ROOT'], '**','*.jpg'].join('\\'))      
+      else  
+        pictures = Dir.glob([home_directory, ENV['PHOTO_ROOT'], '**','*.jpg'].join('/'))
+      end
+                
       pictures.each_with_index do |photo, index|
         store photo unless picture_in_store?(photo)
         puts "Completed #{index + 1} of #{pictures.length}"
@@ -34,7 +43,7 @@ module PictureSafe
     def store(filename)
       get_conn
       AWS::S3::S3Object.store(filename, open(filename, "rb"), ENV['PHOTO_BUCKET'], :access => :public_read)
-      puts "Stored #{photo}" 
+      puts "Stored #{filename}" 
       
     end
     
