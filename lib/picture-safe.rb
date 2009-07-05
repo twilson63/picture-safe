@@ -14,8 +14,7 @@ module PictureSafe
       pictures = Dir.glob([home_directory, ENV['PHOTO_ROOT'], '**/*.jpg'].join('/'))
                   
       pictures.each_with_index do |photo, index|
-        store photo
-        puts "Stored #{photo}" unless picture_in_store?(photo)
+        store photo unless picture_in_store?(photo)
         puts "Completed #{index + 1} of #{pictures.length}"
       end
       "Finished Backup!"
@@ -23,11 +22,20 @@ module PictureSafe
     
     def picture_in_store?(photo)
       get_conn
+      if photo[0] == 47
+        photo = photo.sub('/','')
+      end
+    
       AWS::S3::S3Object.find(photo, ENV['PHOTO_BUCKET'])
+    rescue
+      false
     end
     
     def store(filename)
+      get_conn
       AWS::S3::S3Object.store(filename, open(filename, "rb"), ENV['PHOTO_BUCKET'], :access => :public_read)
+      puts "Stored #{photo}" 
+      
     end
     
     def get_conn
