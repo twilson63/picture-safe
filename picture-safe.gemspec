@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{picture-safe}
-  s.version = "0.0.3"
+  s.version = "0.0.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jack Russell Software Company, LLC"]
@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
      "lib/picture-safe/commands/base.rb",
      "lib/picture-safe/commands/help.rb",
      "picture-safe.gemspec",
+     "readme",
      "spec/base.rb",
      "spec/command_spec.rb",
      "spec/commands/backup_spec.rb",
