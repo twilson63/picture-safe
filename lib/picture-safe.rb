@@ -5,28 +5,25 @@ module PictureSafe
   class << self
     
     def backup(home_directory)
+      unless ENV['PHOTO_ROOT']
+        return "Please define your env varible PHOTO_ROOT"
+      end 
+      
       puts "Starting Backup!"
       
       pictures = Dir.glob([home_directory, ENV['PHOTO_ROOT'], '**/*.jpg'].join('/'))
-      
-      changes = pictures - pictures_in_safe
-      
-            
-      changes.each_with_index do |photo, index|
+                  
+      pictures.each_with_index do |photo, index|
         store photo
-        puts "Stored #{photo}"
-        puts "Completed #{index + 1} of #{changes.length}"
+        puts "Stored #{photo}" unless picture_in_store?(photo)
+        puts "Completed #{index + 1} of #{pictures.length}"
       end
       "Finished Backup!"
     end
     
-    def pictures_in_safe
+    def picture_in_store?(photo)
       get_conn
-      pictures = []
-      get_bucket.objects.each do |s3object|
-        pictures << "/" + s3object.key
-      end
-      pictures
+      AWS::S3::S3Object.find(photo, ENV['PHOTO_BUCKET'])
     end
     
     def store(filename)
